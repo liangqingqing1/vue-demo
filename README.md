@@ -1,8 +1,8 @@
 # vue-demo
- ## 前后端分离 【前端】部分 🤖
+## 前后端分离 【前端】部分 🤖
 
 后端：🎠
-https://github.com/THEO-1126/springboot-demo
+https://github.com/THEO-1126/springboot-demo/tree/guet
 
 前端： 🦄
 https://github.com/THEO-1126/vue-demo
