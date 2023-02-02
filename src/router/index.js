@@ -1,8 +1,18 @@
+<<<<<<< Updated upstream
 import Vue from 'vue' //引入 Vue
 import VueRouter from 'vue-router' //引入 Vue 路由
 import Main from "@/views/Main";
 import Home from "@/views/Home";
 import ViewRole from "@/views/ViewRole";
+=======
+/* 
+  路由管理
+*/
+import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
+import ViewRole from "@/views/ViewRole";
+import Main from "@/views/Main";
+import Home from "@/views/Home";
+>>>>>>> Stashed changes
 
 Vue.use(VueRouter); //安装插件
 

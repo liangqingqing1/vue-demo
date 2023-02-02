@@ -1,16 +1,18 @@
 <template>
   <nav id="nav">
-    <ul v-for="(menu,index) in menus" :key="index">
-      <tree-menu :menu="menu"></tree-menu>
-    </ul>
+    <div id="navTitle">广西永湘物流公司</div>
+    <div id ="menu">
+      <ul  v-for="(menu,index) in menus" :key="index">
+          <tree-menu :menu="menu"></tree-menu>
+      </ul>
+    </div>
   </nav>
 </template>
 
 <script>
 
 import TreeMenu from "@/views/TreeMenu";
-
-
+import { response } from "express";
 // 父组件
 export default {
   name: "SideBar",
@@ -57,12 +59,31 @@ export default {
 </script>
 
 <style>
-
 #nav {
-  width: 12%;
-  height: 800px;
-  background-color: darkgray;
-  float: left;
+  height:100%;
+  background-color: rgb(255, 253, 253);
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  position: fixed;
+  border-right: 1px solid #e3e3e3;
+}
+#nav #menu{
+    /*只是y方向*/
+  bottom: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#nav #navTitle{
+  font-size: 20px;
+  height: 50px;
+  min-height: 50px;
+  line-height: 50px;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
 }
 
 li {
@@ -75,9 +96,12 @@ li {
 
 .submenu > li {
   position: relative;
-  padding-left: 28px;
 }
 
+/* 二级  */
+.submenu > li a{
+  padding-left: 45px;
+}
 a {
   display: block;
   width: 189px;
@@ -102,7 +126,7 @@ a {
   display: block;
   position: absolute;
   z-index: 1;
-  left: 13px;
+  left: 15px;
   top: 37px;
   bottom: 0;
   border: 1px dotted;
@@ -115,16 +139,10 @@ a {
   width: 10px;
   position: absolute;
   z-index: 1;
-  left: 15px;
+  left: 20px;
   top: 17px;
   border: 1px dotted;
   border-width: 1px 0 0; /* 上 右 下*/
 }
 
-#header {
-  width: 100%;
-  height: 130px;
-  float: left;
-  border-bottom: 1px solid black;
-}
 </style>

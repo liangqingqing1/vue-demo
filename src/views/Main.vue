@@ -2,7 +2,7 @@
   <div>
     <head-area></head-area>
     <side-bar></side-bar>
-   <router-view></router-view>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -23,5 +23,8 @@ export default {
 *{
   margin: 0;
   padding: 0;
+  /* 让自动显示的滚动条隐藏 */
+  overflow: hidden;
 }
+
 </style>

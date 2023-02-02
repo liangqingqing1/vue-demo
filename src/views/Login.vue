@@ -67,6 +67,11 @@ export default {
       pwdType: "password",
     };
   },
+  computed:{
+    getUserId(){
+      return this.$store.state.userId;
+    }
+  },
   methods: {
     showPwd() {
       if (this.pwdType === "password") {
@@ -75,6 +80,7 @@ export default {
         this.pwdType = "password";
       }
     },
+<<<<<<< Updated upstream
     handleLogin(){
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -104,6 +110,84 @@ export default {
             return false;
            }        
       })
+=======
+    reset() {
+      // 重置会变成cookie里的值
+      // this.$refs.loginForm.resetFields();
+      this.loginForm.username=""
+      this.loginForm.password=""
+      this.loginForm.rememberMe=false
+    },
+    getCookie() {
+      const username = Cookies.get('username')
+      let password = Cookies.get('password')
+      // 解密
+      var bytes = CryptoJS.AES.decrypt(password, "key");
+      var originalPW = bytes.toString(CryptoJS.enc.Utf8);
+      const rememberMe = Cookies.get('rememberMe')
+      // 保存cookie里面的加密后的密码
+      this.cookiePass = password === undefined ? '' : password
+      password = password === undefined ? this.loginForm.password : originalPW
+      this.loginForm = {
+        username: username === undefined ? this.loginForm.username : username,
+        password: password,
+        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
+      }
+    },
+
+    // 使用状态管理，用封装的axios
+    handleLogin() {
+      this.$refs.loginForm.validate(valid => {
+        const user = {
+          username: this.loginForm.username,
+          password: this.loginForm.password,
+          rememberMe: this.loginForm.rememberMe,
+        }
+        // Encrypt 加密 
+        var cipherPW = CryptoJS.AES.encrypt(
+          user.password,//账号 或者  密码
+          "key"  //键
+        ).toString();
+        if (user.password !== this.cookiePass) {
+          user.password = cipherPW
+        }
+        if(valid){
+          if (user.rememberMe) {
+            Cookies.set('username', user.username, { expires: Config.passCookieExpires })
+            Cookies.set('password', user.password, { expires: Config.passCookieExpires })
+            Cookies.set('rememberMe', user.rememberMe, { expires: Config.passCookieExpires })
+          } else {
+            Cookies.remove('username')
+            Cookies.remove('password')
+            Cookies.remove('rememberMe')
+          }
+          this.$store.dispatch('Login',this.loginForm).then((response) => {
+            this.loading = false
+            console.log(response)
+            let statusCode = response.data.statusCode
+            if(statusCode==200){
+              this.$router.push({ path: '/dashboard' })
+              window.localStorage.setItem("user",JSON.stringify(response.data))
+            }else{
+              /* 弹出警告提示框 */
+              this.$message({
+                  showClose: true,
+                  message: '用户名或密码错误！',
+                  type: 'warning'
+                });
+            }
+          }).catch(() => {
+            this.loading = false
+          })
+        }else{
+          this.$message({
+            showClose: true,
+            message: '用户名和密码不能为空！',
+            type: 'warning'
+          });
+        }
+      });
+>>>>>>> Stashed changes
     }
 }
 };

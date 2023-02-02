@@ -1,13 +1,13 @@
 <template>
   <div id="head">
-    head部分
-    <h2>Welcome!</h2>
-    <h3>当前用户名：{{username}}</h3>
-    <el-button
-    style="width: 10%"
-    type="primary"
-    @click.native.prevent="exitBtn"
-  >退出</el-button>
+    <div id="content">
+      <p> 当前用户:{{username}}</p>
+      <el-avatar id="avatar" :size="50" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+      <el-button id="exitBtn"
+        type="primary"
+        @click.native.prevent="exitBtn"
+      >退出</el-button>
+    </div>
   </div>
 </template>
 
@@ -30,9 +30,27 @@ export default {
 </script>
 
 <style scoped>
-  #head{
-    width: 100%;
-    height: 120px;
-    background-color: bisque;
-  }
+#head{
+  position: fixed;
+  z-index: 1000;
+  height: 80px;
+  width: 85%;
+  box-shadow: 0 2px 4px 0 var(--cb-color-shadow,rgba(0,0,0,0.16));
+  background-color: #009688;
+  top: 0px;
+  right: 0px;
+}
+#head #content{
+  display: flex;
+  align-items: center;
+  width:100%;
+  height: 80px;
+  justify-content: center;
+  /* 设置子元素间距 */
+  gap: 10px;
+}
+#head #content p{
+  font-size: 20px;
+  color: aliceblue;
+}
 </style>
