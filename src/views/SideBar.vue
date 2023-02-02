@@ -12,7 +12,6 @@
 <script>
 
 import TreeMenu from "@/views/TreeMenu";
-import { response } from "express";
 // 父组件
 export default {
   name: "SideBar",
@@ -34,7 +33,7 @@ export default {
     },
     getPermissionByUserId(){
       console.log("调用getPermissionByUserId()")
-      this.$axios.get('http://localhost:8080/getPermissionByUserId', 
+      this.$axios.get('http://localhost:8080/getPermissionByUserId',
       {params:{userId:JSON.parse(window.localStorage.getItem("user")).data.userId}}).then(res => {
           // 拿到结果
           console.log(res.data)

@@ -11,13 +11,17 @@
     "axios": "^0.18.1",
     "buffer": "^6.0.3",
     "core-js": "^3.8.3",
-    "element-ui": "^2.4.5",
+    "crypto-js": "^4.1.1",
+    "element-ui": "^2.15.12",
+    "font-awesome": "^4.7.0",
+    "js-cookie": "2.2.0",
+    "jsencrypt": "^3.0.0-rc.1",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "node-sass": "^4.14.1",
     "qs": "^6.11.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
-    "vuex": "^3.1.1",
-    "font-awesome": "^4.7.0"
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^5.0.8",
@@ -49,6 +53,9 @@
     "plugins": {
       "autoprefixer": {}
     }
+  },
+  "browser": {
+    "fs": false
   },
   "browserslist": [
     "> 1%",

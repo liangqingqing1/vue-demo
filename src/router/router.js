@@ -1,16 +1,7 @@
-import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
-import ViewRole from "@/views/ViewRole";
+import Vue from 'vue' //引入 Vue
+import VueRouter from 'vue-router' //引入 Vue 路由
 import Main from "@/views/Main";
 import Home from "@/views/Home";
-<<<<<<< Updated upstream
-import Login from "@views/Login"
-
-const routes = [
-    {
-        path:"/login",
-        component:Login,
-    },
-=======
 import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
 
 Vue.use(VueRouter); //安装插件
@@ -24,8 +15,8 @@ export const constantRouterMap = [
     },
 
     //配置默认的路径，默认显示登录页
-    { 
-        path: '/', 
+    {
+        path: '/',
         redirect:'/login',
         component: () => import('@/views/Login'),
         children:[{
@@ -35,11 +26,10 @@ export const constantRouterMap = [
         }]
     },
     //配置登录成功页面，使用时需要使用 path 路径来实现跳转
->>>>>>> Stashed changes
     {
         path:'/',
         component: Main,
-        redirect:'/home',
+        // redirect:'/home',
         children: [
 
             // 一级菜单且无子菜单 menu.type=1
@@ -63,7 +53,7 @@ export const constantRouterMap = [
                 path: '/processContract',
                 name: '加工单',
                 component: () => import('../views/firstMenu/processContract')
-            }, 
+            },
             {
                 path: '/warehouseManagement',
                 name: '仓库管理',
@@ -185,12 +175,21 @@ export const constantRouterMap = [
                 component: () => import('../views/finance/priceTrend')
             }
         ]
-    }
+    },
+
+
+
+    //配置登录成功页面，使用时需要使用 path 路径来实现跳转
+    { path: '/success', component: () => import('@/views/success')},
+
+    //配置登录失败页面，使用时需要使用 path 路径来实现跳转
+    // { path: '/error', component: () => import('@/views/error'), hidden: true }
 ]
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes
+export default new VueRouter({
+    mode:"history",
+    // mode: 'history', //后端支持可开
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRouterMap //指定路由列表
 })
 
-export default router

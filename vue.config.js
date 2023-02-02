@@ -1,19 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
-<<<<<<< Updated upstream
-module.exports = defineConfig({
-  transpileDependencies: true,
-  lintOnSave: false
-=======
-const path = require('path')
-const webpack = require('webpack')
-function resolve(dir) {
-  return path.join(__dirname, dir)
-}
-
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
-  }
-
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
@@ -22,8 +8,27 @@ module.exports = defineConfig({
     host:"127.0.0.1",
     port:8080
   },
->>>>>>> Stashed changes
+  configureWebpack: {
+    resolve: {
+      fallback: {
+        fs: false,
+        net:false
+      } },
+    // target: 'node',
+    // externals: [nodeExternals()],
+    // externals: {
+    //   fs: require('fs'),
+
+    //   net: require('net'),
+    //   chokidar:require('chokidar')
+    //  },
+    plugins: [new NodePolyfillPlugin()]
+  },
+
 })
+
+
+
 
 // module.exports = {
 //   resolve: {

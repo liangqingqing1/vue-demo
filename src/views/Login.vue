@@ -1,53 +1,65 @@
 <template>
-  <div>
+  <div class="login" :style="'background-image:url('+ Background +');'">
     <el-card class="login-form-layout">
       <el-form
-        autocomplete="on"
-        :model="loginForm"
-        ref="loginForm"
-        label-position="left"
+          autocomplete="on"
+          :model="loginForm"
+          :rules="loginRules"
+          ref="loginForm"
+          label-position="left"
       >
         <div style="text-align: center">
-          <svg-icon icon-class="login-mall" style="width: 56px;height: 56px;color: #409EFF"></svg-icon>
+          <i class="fa fa-user-circle-o" style="font-size: 50px;color: #409EFF;margin-bottom: 20px;"></i>
         </div>
         <h2 class="login-title color-main">登入</h2>
         <el-form-item prop="username">
           <el-input
-            name="username"
-            type="text"
-            v-model="loginForm.username"
-            autocomplete="on"
-            placeholder="请输入用户名"
+              name="username"
+              type="text"
+              v-model="loginForm.username"
+              autocomplete="on"
+              placeholder="请输入用户名"
           >
-            <span slot="prefix">
-              <svg-icon icon-class="user" class="color-main"></svg-icon>
+            <span slot="prefix" style="padding-left:7px">
+              <i class="fa fa-user"></i>
             </span>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-            name="password"
-            :type="pwdType"
-            @keyup.enter.native="handleLogin"
-            v-model="loginForm.password"
-            autocomplete="on"
-            placeholder="请输入密码"
+              name="password"
+              :type="pwdType"
+              @keyup.enter.native="handleLogin"
+              v-model="loginForm.password"
+              autocomplete="on"
+              placeholder="请输入密码"
           >
             <span slot="prefix">
-              <svg-icon icon-class="password" class="color-main"></svg-icon>
+              <i class="fa fa-key" style="padding-left:7px"></i>
             </span>
-            <span slot="suffix" @click="showPwd">
-              <svg-icon icon-class="eye" class="color-main"></svg-icon>
+            <span slot="suffix" @click="showPwd" :hide="hide" style="padding-right: 7px;">
+              <i v-if="!hide" class="fa fa-eye"></i>
+              <i v-else class="fa fa-eye-slash"></i>
             </span>
           </el-input>
         </el-form-item>
-        <el-form-item style="margin-bottom: 60px">
+        <el-checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">
+          记住我
+        </el-checkbox>
+        <el-form-item style="margin-bottom: 10px;text-align: center;">
+          <el-button style="width: 45%"
+                     type="primary"
+                     @click.native.prevent="reset"
+          >重置</el-button>
           <el-button
-            style="width: 100%"
-            type="primary"
-            :loading="loading"
-            @click.native.prevent="handleLogin"
-          >登录</el-button>
+              style="width: 45%"
+              type="primary"
+              :loading="loading"
+              @click.native.prevent="handleLogin"
+          >
+            <span v-if="!loading">登 录</span>
+            <span v-else>登 录 中...</span>
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -55,17 +67,61 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import Background from '@/assets/images/background.webp'
+import Config from '@/settings'
+import CryptoJS from "crypto-js";
+
 export default {
   name: "Login",
   data() {
+    var validatePw = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('密码不能为空'));
+      } else {
+        if (this.loginForm.password !== '') {
+          this.$refs.loginForm.validateField('password');
+        }
+        callback();
+      }
+    };
+    var validateUn = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('用户名不能为空'));
+      } else {
+        if (this.loginForm.username !== '') {
+          this.$refs.loginForm.validateField('username');
+        }
+        callback();
+      }
+    };
     return {
+      Background: Background,
+      cookiePass: '',
       loginForm: {
-        username: "admin",
-        password: "1234"
+        username: "",
+        password: "",
+        rememberMe: false
       },
       loading: false,
+      hide:true,
       pwdType: "password",
-    };
+      loginRules: {
+        password: [
+          { validator: validatePw, trigger: 'blur' }
+        ],
+        username: [
+          { validator: validateUn, trigger: 'blur' }
+        ]
+        // username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
+        // password: [{ required: true, trigger: 'blur', message: '密码不能为空' }]
+      },
+    }
+  },
+  // 生命周期钩子函数，一个 vue 实例被生成后会调用这个函数
+  created() {
+    // 获取用户名密码等Cookie
+    this.getCookie()
   },
   computed:{
     getUserId(){
@@ -76,41 +132,12 @@ export default {
     showPwd() {
       if (this.pwdType === "password") {
         this.pwdType = "";
+        this.hide=false
       } else {
         this.pwdType = "password";
+        this.hide=true
       }
     },
-<<<<<<< Updated upstream
-    handleLogin(){
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-            // 表单验证成功
-            this.$axios.post('http://localhost:8080/admin/login', this.loginForm).then(res => {
-              // 拿到结果
-              console.log(res.data)
-              let statusCode = res.data.statusCode
-              let message = res.data.message;
-              // 判断结果
-              if (statusCode==200) {
-                /*登陆成功*/
-                // Element.Message.success(message);          
-                window.localStorage.setItem("user",JSON.stringify(res.data))
-                 /*跳转页面*/
-                this.$router.push({
-                  path: "/home",
-                  // query: { data: res.data }
-                })
-              } else {
-                /*打印错误信息*/
-                Element.Message.error(message);
-              }
-            })
-          }else {
-            console.log('error submit!!');
-            return false;
-           }        
-      })
-=======
     reset() {
       // 重置会变成cookie里的值
       // this.$refs.loginForm.resetFields();
@@ -143,24 +170,15 @@ export default {
           password: this.loginForm.password,
           rememberMe: this.loginForm.rememberMe,
         }
-        // Encrypt 加密 
+        // Encrypt 加密
         var cipherPW = CryptoJS.AES.encrypt(
-          user.password,//账号 或者  密码
-          "key"  //键
+            user.password,//账号 或者  密码
+            "key"  //键
         ).toString();
         if (user.password !== this.cookiePass) {
           user.password = cipherPW
         }
         if(valid){
-          if (user.rememberMe) {
-            Cookies.set('username', user.username, { expires: Config.passCookieExpires })
-            Cookies.set('password', user.password, { expires: Config.passCookieExpires })
-            Cookies.set('rememberMe', user.rememberMe, { expires: Config.passCookieExpires })
-          } else {
-            Cookies.remove('username')
-            Cookies.remove('password')
-            Cookies.remove('rememberMe')
-          }
           this.$store.dispatch('Login',this.loginForm).then((response) => {
             this.loading = false
             console.log(response)
@@ -168,13 +186,22 @@ export default {
             if(statusCode==200){
               this.$router.push({ path: '/dashboard' })
               window.localStorage.setItem("user",JSON.stringify(response.data))
+              if (user.rememberMe) {
+                Cookies.set('username', user.username, { expires: Config.passCookieExpires })
+                Cookies.set('password', user.password, { expires: Config.passCookieExpires })
+                Cookies.set('rememberMe', user.rememberMe, { expires: Config.passCookieExpires })
+              } else {
+                Cookies.remove('username')
+                Cookies.remove('password')
+                Cookies.remove('rememberMe')
+              }
             }else{
               /* 弹出警告提示框 */
               this.$message({
-                  showClose: true,
-                  message: '用户名或密码错误！',
-                  type: 'warning'
-                });
+                showClose: true,
+                message: '用户名或密码错误！',
+                type: 'warning'
+              });
             }
           }).catch(() => {
             this.loading = false
@@ -187,13 +214,17 @@ export default {
           });
         }
       });
->>>>>>> Stashed changes
     }
-}
+  }
 };
 </script>
 
 <style scoped>
+.login {
+  height: 100%;
+  background-size: cover;
+  /*background-color: rebeccapurple;*/
+}
 .login-form-layout {
   position: absolute;
   left: 0;
@@ -205,6 +236,7 @@ export default {
 
 .login-title {
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .login-center-layout {
