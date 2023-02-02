@@ -75,26 +75,26 @@ import CryptoJS from "crypto-js";
 export default {
   name: "Login",
   data() {
-    var validatePw = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('密码不能为空'));
-      } else {
-        if (this.loginForm.password !== '') {
-          this.$refs.loginForm.validateField('password');
-        }
-        callback();
-      }
-    };
-    var validateUn = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('用户名不能为空'));
-      } else {
-        if (this.loginForm.username !== '') {
-          this.$refs.loginForm.validateField('username');
-        }
-        callback();
-      }
-    };
+    // var validatePw = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('密码不能为空'));
+    //   } else {
+    //     if (this.loginForm.password !== '') {
+    //       this.$refs.loginForm.validateField('password');
+    //     }
+    //     callback();
+    //   }
+    // };
+    // var validateUn = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('用户名不能为空'));
+    //   } else {
+    //     if (this.loginForm.username !== '') {
+    //       this.$refs.loginForm.validateField('username');
+    //     }
+    //     callback();
+    //   }
+    // };
     return {
       Background: Background,
       cookiePass: '',
@@ -107,14 +107,14 @@ export default {
       hide:true,
       pwdType: "password",
       loginRules: {
-        password: [
-          { validator: validatePw, trigger: 'blur' }
-        ],
-        username: [
-          { validator: validateUn, trigger: 'blur' }
-        ]
-        // username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
-        // password: [{ required: true, trigger: 'blur', message: '密码不能为空' }]
+        // password: [
+        //   { validator: validatePw, trigger: 'blur' }
+        // ],
+        // username: [
+        //   { validator: validateUn, trigger: 'blur' }
+        // ]
+        username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
+        password: [{ required: true, trigger: 'blur', message: '密码不能为空' }]
       },
     }
   },

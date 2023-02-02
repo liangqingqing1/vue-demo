@@ -32,22 +32,20 @@ export default {
       this.submenu.submenuHide = !this.submenu.submenuHide;
     },
     getPermissionByUserId(){
-      console.log("调用getPermissionByUserId()")
-      this.$axios.get('http://localhost:8080/getPermissionByUserId',
-      {params:{userId:JSON.parse(window.localStorage.getItem("user")).data.userId}}).then(res => {
-          // 拿到结果
-          console.log(res.data)
-          let statusCode = res.data.statusCode
-          let message = res.data.message;
-          console.log(res.data.data)
-          this.menus=res.data.data
-          // 判断结果
+      let userId=JSON.parse(window.localStorage.getItem("user")).data.userId
+      this.$store.dispatch('getPermissionByUserId',userId).then((res) => {
+        // 拿到结果
+        let statusCode = res.data.statusCode
+        this.menus=res.data.data
+        // 判断结果
           if (statusCode==200) {
             console.log("获取权限成功")
           } else {
             console.log("获取权限错误")
           }
-        })
+      }).catch(() => {
+        this.loading = false
+      })
     }
   },
   mounted:function(){  // 页面加载时触发函数
