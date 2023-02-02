@@ -8,10 +8,10 @@
           ref="loginForm"
           label-position="left"
       >
-        <div style="text-align: center">
-          <i class="fa fa-user-circle-o" style="font-size: 50px;color: #409EFF;margin-bottom: 20px;"></i>
+        <div style="text-align: center;margin-bottom: 20px;">
+          <el-avatar id="avatar" :size="150" :src="oa_logo"></el-avatar>
         </div>
-        <h2 class="login-title color-main">登入</h2>
+        <h2 class="login-title">欢迎登录</h2>
         <el-form-item prop="username">
           <el-input
               name="username"
@@ -47,8 +47,7 @@
           记住我
         </el-checkbox>
         <el-form-item style="margin-bottom: 10px;text-align: center;">
-          <el-button style="width: 45%"
-                     type="primary"
+          <el-button plain style="width: 45%"                   
                      @click.native.prevent="reset"
           >重置</el-button>
           <el-button
@@ -69,6 +68,7 @@
 <script>
 import Cookies from 'js-cookie'
 import Background from '@/assets/images/background.webp'
+import oa_logo from '@/assets/images/oa_logo.png'
 import Config from '@/settings'
 import CryptoJS from "crypto-js";
 
@@ -97,6 +97,7 @@ export default {
     // };
     return {
       Background: Background,
+      oa_logo:oa_logo,
       cookiePass: '',
       loginForm: {
         username: "",
@@ -226,25 +227,17 @@ export default {
   /*background-color: rebeccapurple;*/
 }
 .login-form-layout {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 360px;
-  margin: 140px auto;
-  border-top: 10px solid #409eff;
+  width: 450px;
+  margin: auto;
+  margin-top: 80px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.49);
 }
-
+.login-form-layout{
+  background-color:rgba(255, 255, 255, 0.912) ;
+}
 .login-title {
   text-align: center;
   margin-bottom: 20px;
-}
-
-.login-center-layout {
-  background: #409eff;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  margin-top: 200px;
+  color: #409eff;
 }
 </style>

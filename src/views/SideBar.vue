@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <nav id="nav">
     <div id="navTitle">广西永湘物流公司</div>
     <div id ="menu">
@@ -6,6 +6,18 @@
           <tree-menu :menu="menu"></tree-menu>
       </ul>
     </div>
+  </nav>
+</template> -->
+
+<template>
+  <nav id="nav">
+    <div id="navTitle">广西永湘物流公司</div>
+    <!-- 默认激活的是 首页 ，127是首页菜单的 index -->
+      <el-menu id ="menu" default-active="127">
+        <ul v-for="(menu,index) in menus" :key="index">
+          <tree-menu :menu="menu" :key="index"></tree-menu>
+        </ul>
+      </el-menu>
   </nav>
 </template>
 
@@ -19,18 +31,18 @@ export default {
   components: {TreeMenu},
   data() {
     return {
-      submenu: {
-        submenuHide: false,
-        submenuShow: true
-      },
+      // submenu: {
+      //   submenuHide: false,
+      //   submenuShow: true
+      // },
       menus:[]
     }
   },
   methods: {
-    expand() {
-      this.submenu.submenuShow = !this.submenu.submenuShow;
-      this.submenu.submenuHide = !this.submenu.submenuHide;
-    },
+    // expand() {
+    //   this.submenu.submenuShow = !this.submenu.submenuShow;
+    //   this.submenu.submenuHide = !this.submenu.submenuHide;
+    // },
     getPermissionByUserId(){
       let userId=JSON.parse(window.localStorage.getItem("user")).data.userId
       this.$store.dispatch('getPermissionByUserId',userId).then((res) => {
@@ -56,6 +68,7 @@ export default {
 </script>
 
 <style>
+
 #nav {
   height:100%;
   background-color: rgb(255, 253, 253);
@@ -67,12 +80,14 @@ export default {
   position: fixed;
   border-right: 1px solid #e3e3e3;
 }
+
 #nav #menu{
     /*只是y方向*/
   bottom: 0;
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
 #nav #navTitle{
   font-size: 20px;
   height: 50px;
@@ -81,8 +96,17 @@ export default {
   font-weight: 600;
   width: 100%;
   text-align: center;
+  color: white;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.49);
+  background-color: #009688;
 }
 
+
+/* li {
+  border-bottom: 0.1em solid #E5E5E5;
+} */
+
+/* 
 li {
   list-style: none;
   position: relative;
@@ -95,7 +119,7 @@ li {
   position: relative;
 }
 
-/* 二级  */
+
 .submenu > li a{
   padding-left: 45px;
 }
@@ -127,7 +151,7 @@ a {
   top: 37px;
   bottom: 0;
   border: 1px dotted;
-  border-width: 0 0 0 1px; /* 上 右 下 左 */
+  border-width: 0 0 0 1px; 
 }
 
 .submenu > li:before {
@@ -139,7 +163,7 @@ a {
   left: 20px;
   top: 17px;
   border: 1px dotted;
-  border-width: 1px 0 0; /* 上 右 下*/
-}
+  border-width: 1px 0 0; 
+} */
 
 </style>
