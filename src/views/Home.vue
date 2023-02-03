@@ -1,9 +1,5 @@
 <template>
-  <div id="box" >
-    <div id="content" :style="'background-image:url('+ Background +');'">
-    
-    </div>
-  </div>
+    <img id="content" :style="'background-image:url('+ Background +');'">
 </template>
 
 <script>
@@ -21,10 +17,10 @@ export default {
 <style scoped>
 /* 局部引入 */
 /* @import '../assets/styles/view.css'; */
-#box{
-  padding: 5px;
-}
+
 #content{
-  height: 100%;
+  width: 99%;
+  height: 88%;
+  margin: auto;
 }
 </style>

@@ -1,6 +1,10 @@
+// 状态管理
+
 import Vue from 'vue' //引入 Vue
 import Vuex from 'vuex' //引入 Vuex
-import user from './modules/user' //引入 user module
+
+//引入 user module 主要是登录、获取菜单列表、系统管理
+import user from './modules/user' 
 
 Vue.use(Vuex)
 

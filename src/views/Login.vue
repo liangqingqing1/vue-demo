@@ -165,6 +165,7 @@ export default {
 
     // 使用状态管理，用封装的axios
     handleLogin() {
+      this.loading = true
       this.$refs.loginForm.validate(valid => {
         const user = {
           username: this.loginForm.username,
@@ -197,6 +198,7 @@ export default {
                 Cookies.remove('rememberMe')
               }
             }else{
+              this.loading = false
               /* 弹出警告提示框 */
               this.$message({
                 showClose: true,
@@ -206,8 +208,14 @@ export default {
             }
           }).catch(() => {
             this.loading = false
+            this.$message({
+              showClose: true,
+              message: '登录失败！后台未启动',
+              type: 'error'
+          });
           })
         }else{
+          this.loading = false
           this.$message({
             showClose: true,
             message: '用户名和密码不能为空！',

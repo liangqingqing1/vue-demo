@@ -1,14 +1,14 @@
 /* 设置 切换页面的公共样式 */
 
 #box{
-  position: absolute;
+  /* position: absolute;
   right: 0;
   width: 85%;
-  height: 90%;
+  height: 89%;
   top: 80px;
-  /*只是y方向*/;
-  overflow-y:auto;
-  overflow-x: hidden;
+  bottom:0;
+  overflow-y: auto; */
   /* padding: 5px; */
   /* background-color: aqua; */
+
 }

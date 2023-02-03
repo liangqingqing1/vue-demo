@@ -1,6 +1,8 @@
 import { login } from '@/api/login'//引入登录 api 接口
 import {getPermissionByUserId} from '@/api/permission' // 引入获取菜单权限 api 接口
+import { getUserList } from '@/api/system' // 引入 系统管理接口
 import { getToken } from '@/utils/auth'
+
 
 const user = {
   // state: {
@@ -34,9 +36,18 @@ const user = {
         })
       })
     },
-    getPermissionByUserId({commit},userId){
+    GetPermissionByUserId({commit},userId){
       return new Promise((resolve, reject) => { //封装一个 Promise
         getPermissionByUserId(userId).then(response => { //使用 permission 接口进行网络请求
+          resolve(response) //将结果封装进 Promise
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    GetUserList({commit}){
+      return new Promise((resolve, reject) => { //封装一个 Promise
+        getUserList().then(response => { //使用 permission 接口进行网络请求
           resolve(response) //将结果封装进 Promise
         }).catch(error => {
           reject(error)

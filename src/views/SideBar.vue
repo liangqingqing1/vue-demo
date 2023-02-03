@@ -45,7 +45,7 @@ export default {
     // },
     getPermissionByUserId(){
       let userId=JSON.parse(window.localStorage.getItem("user")).data.userId
-      this.$store.dispatch('getPermissionByUserId',userId).then((res) => {
+      this.$store.dispatch('GetPermissionByUserId',userId).then((res) => {
         // 拿到结果
         let statusCode = res.data.statusCode
         this.menus=res.data.data
@@ -70,22 +70,22 @@ export default {
 <style>
 
 #nav {
+  z-index: 1000;
+  min-width: 250px;
   height:100%;
   background-color: rgb(255, 253, 253);
   left: 0;
   top: 0;
   display: flex;
   flex-direction: column;
-  width: 15%;
-  position: fixed;
+  width: 250px;
+  position: absolute;
   border-right: 1px solid #e3e3e3;
 }
 
 #nav #menu{
     /*只是y方向*/
-  bottom: 0;
   overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 #nav #navTitle{
