@@ -68,15 +68,13 @@ export default {
       GetUserList(){
           this.loading = true
           setTimeout(() => {
-                this.$store.dispatch('GetUserList').then((res) => {
-              // 拿到结果
-              let statusCode = res.data.statusCode
-              this.menus=res.data.data
+              this.$store.dispatch('GetUserList').then((res) => {
+                let statusCode = res.data.statusCode
                   // 判断结果
               if (statusCode==200) {
                   this.data.tableData=res.data.data
                   this.data.list=res.data.data
-                  this.tablePage.total = 401
+                  this.tablePage.total = res.data.data.length
                   this.loading = false
                   console.log("成功")
               } else {
