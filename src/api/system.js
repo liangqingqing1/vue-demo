@@ -12,7 +12,6 @@ export function getUserList() { // 获取 员工列表
     pageSize：每页显示 pageSize 条数据
 */ 
 export function getUserListByPage(tablePage){
-  console.log("test")
   let currentPage=tablePage.currentPage
   let pageSize=tablePage.pageSize
   return request({
