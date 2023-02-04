@@ -6,7 +6,6 @@
           :model="loginForm"
           :rules="loginRules"
           ref="loginForm"
-          label-position="left"
       >
         <div style="text-align: center;margin-bottom: 20px;">
           <el-avatar id="avatar" :size="150" :src="oa_logo"></el-avatar>
@@ -230,18 +229,16 @@ export default {
 
 <style scoped>
 .login {
+  display: flex;
+  overflow: hidden;
   height: 100%;
   background-size: cover;
-  /*background-color: rebeccapurple;*/
 }
 .login-form-layout {
-  width: 450px;
-  margin: auto;
-  margin-top: 80px;
+  width: 30%;
+  min-width: 400px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.49);
-}
-.login-form-layout{
-  background-color:rgba(255, 255, 255, 0.912) ;
+  margin: auto;
 }
 .login-title {
   text-align: center;

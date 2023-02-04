@@ -48,6 +48,7 @@ export default {
 .right .view{
   height: 100%;
   width: 100%;
+  overflow-y: scroll;
   /* background-color: #009688; */
 }
 

@@ -37,6 +37,7 @@
         :loading="loading"
         :current-page="tablePage.currentPage"
         :page-size="tablePage.pageSize"
+        :page-sizes= "tablePage.pageSizes"
         :total="tablePage.total"
         :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']"
         @page-change="handlePageChange">
@@ -55,12 +56,14 @@ export default {
       tablePage: {
         currentPage: 1,
         pageSize: 10,
+        pageSizes:[5,10,20,50,100],
         total: 0
       },
       data:{
           filterName: '',
-          list: [],
-          tableData:[]
+          list: [],  // 用于在界面显示的数据
+          tableData:[],  // 存放真正的数据
+          listCopy:[], // 用于查询前后存放的假数据
       }
     }
   },
@@ -76,7 +79,6 @@ export default {
                   this.data.list=res.data.data
                   this.tablePage.total = res.data.data.length
                   this.loading = false
-                  console.log("成功")
               } else {
                   console.log("错误")
               }
@@ -88,7 +90,29 @@ export default {
                 });
               })
           },200)
-          
+      },
+      getUserListByPage(){
+        this.loading = true
+          setTimeout(() => {
+              this.$store.dispatch('GetUserListByPage',this.tablePage).then((res) => {
+                let statusCode = res.data.statusCode
+                    // 判断结果
+                if (statusCode==200) {
+                    this.data.list=res.data.data
+                    this.data.listCopy=this.data.list
+                    this.loading = false
+                } else {
+                    console.log("错误")
+                }
+              }).catch((err) => {
+                  console.log(err);
+                  this.$message({
+                    showClose: true,
+                    message: '无权访问！',
+                    type: 'error'
+                });
+              })
+          },200)
       },
       searchEvent() {
         const filterName = XEUtils.toValueString(this.data.filterName).trim().toLowerCase()
@@ -104,17 +128,16 @@ export default {
             return item
           })
         } else {
-          this.data.list = this.data.tableData
+          this.data.list = this.data.listCopy
       }
     },
     handlePageChange ({ currentPage, pageSize }) {
       this.tablePage.currentPage = currentPage
       this.tablePage.pageSize = pageSize
-      this.GetUserList()
+      this.getUserListByPage()
     }
   },
-  mounted:function(){
-      console.log("GetUserList()")
+  created:function(){
       this.GetUserList()
   },
 }

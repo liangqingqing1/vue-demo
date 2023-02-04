@@ -1,6 +1,7 @@
 import { login } from '@/api/login'//引入登录 api 接口
 import {getPermissionByUserId} from '@/api/permission' // 引入获取菜单权限 api 接口
-import { getUserList } from '@/api/system' // 引入 系统管理接口
+import { getUserList,getUserListByPage } from '@/api/system' // 引入 系统管理接口
+
 import { getToken } from '@/utils/auth'
 
 
@@ -36,6 +37,8 @@ const user = {
         })
       })
     },
+
+    // 获取菜单权限列表
     GetPermissionByUserId({commit},userId){
       return new Promise((resolve, reject) => { //封装一个 Promise
         getPermissionByUserId(userId).then(response => { //使用 permission 接口进行网络请求
@@ -45,11 +48,25 @@ const user = {
         })
       })
     },
+
+    // 获取员工列表
     GetUserList({commit}){
       return new Promise((resolve, reject) => { //封装一个 Promise
         getUserList().then(response => { //使用 permission 接口进行网络请求
           resolve(response) //将结果封装进 Promise
         }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    GetUserListByPage({commit},tablePage){
+      console.log(tablePage)
+      return new Promise((resolve, reject) => { //封装一个 Promise
+        getUserListByPage(tablePage).then(response => { //使用 permission 接口进行网络请求
+          resolve(response) //将结果封装进 Promise
+        }).catch(error => {
+          console.log("system.js GetUserListByPage 错误")
           reject(error)
         })
       })
